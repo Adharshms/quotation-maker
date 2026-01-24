@@ -113,27 +113,13 @@ button:hover { opacity:0.9; }
     <button onclick="removeColumn()">Remove Column</button>
   </div>
 
-  <div class="totals">
-    <p>Subtotal: ₹ <span id="subtotal">0</span></p>
-
-    <p>
-      <label><input type="checkbox" id="gstCheck"> Apply GST</label>
-      <span id="gstInput" style="display:none; margin-left: 10px;">
-        <input type="number" id="gstPercentage" value="18" min="0" max="100" step="0.01" style="width:60px;">%
-      </span>
-    </p>
-
-    <p id="gstRow" style="display:none;">GST: ₹ <span id="gst">0</span></p>
-
-    <p class="total-amount">Total: ₹ <span id="total">0</span></p>
-  </div>
-
+  
   <div class="two-columns">
     <div>
       <div class="section-title">Payment Terms</div>
       <ul>
         <li>50% advance before start</li>
-        <li>50% after completion</li>
+        <li>50% before completion</li>
       </ul>
     </div>
     <div>
