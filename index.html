@@ -20,9 +20,29 @@ body { font-family:'Poppins',sans-serif; background:#eef3f9; padding:15px; }
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-.header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
-.logo-area img { height:60px; }
-.quote-title { font-size:32px; font-weight:700; color:#0b3d91; }
+/* 🔥 HEADER FIX */
+.header {
+  position:relative;
+  min-height:80px;
+}
+
+.logo-area img { height:60px; margin-bottom:5px; }
+
+.logo-area p {
+  font-size:13px;
+  line-height:1.4;
+  margin:0;
+}
+
+/* TITLE LOCKED TOP RIGHT */
+.quote-title {
+  position:absolute;
+  top:0;
+  right:0;
+  font-size:32px;
+  font-weight:700;
+  color:#0b3d91;
+}
 
 .wave { height:8px; background:linear-gradient(90deg,#0b3d91,#2a7fff);
   margin:15px 0 20px; border-radius:4px; }
@@ -105,15 +125,18 @@ button {
 <div class="quotation-box">
 
   <div class="header">
-    <div class="logo-area"><img src="aa.jpeg">
-    <p> BKM complex <br>
-Kozhikode Road <br>
-Perinthalmanna ,<br>
-Malappuram,<br>
-Kerala-679322 <br>
-Contact: +91 99957 15997</p>
+    <div class="logo-area">
+      <img src="aa.jpeg">
+      <p>
+        BKM complex <br>
+        Kozhikode Road <br>
+        Perinthalmanna <br>
+        Malappuram <br>
+        Kerala-679322 <br>
+        Contact: +91 99957 15997
+      </p>
     </div>
-    
+
     <div class="quote-title">QUOTATION</div>
   </div>
 
@@ -155,18 +178,15 @@ Contact: +91 99957 15997</p>
     <button onclick="removeRow()">Remove Row</button>
   </div>
 
-  <!-- ✅ TOTALS + GST CORRECT POSITION -->
   <div class="totals-box">
     <div class="totals-row">
       <span>Subtotal</span>
       <span>₹ <span id="subtotal">0.00</span></span>
     </div>
 
-     
-
     <div class="totals-row grand">
-      <span></span>
-      <span> <span id="grandTotal"></span></span>
+      <span>Grand Total</span>
+      <span>₹ <span id="grandTotal">0.00</span></span>
     </div>
   </div>
 
@@ -230,15 +250,7 @@ function calculateTotal(){
   let subtotal=0;
   inputs.forEach(i=>subtotal+=Number(i.value));
   document.getElementById("subtotal").innerText=subtotal.toFixed(2);
-
-  if(document.getElementById("gstCheck").checked){
-    let gst=subtotal*0.18;
-    document.getElementById("gstAmount").innerText=gst.toFixed(2);
-    document.getElementById("grandTotal").innerText=(subtotal+gst).toFixed(2);
-  } else {
-    document.getElementById("gstAmount").innerText="0.00";
-    document.getElementById("grandTotal").innerText=subtotal.toFixed(2);
-  }
+  document.getElementById("grandTotal").innerText=subtotal.toFixed(2);
 }
 </script>
 
