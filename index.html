@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,25 +8,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body { font-family:'Poppins',sans-serif; background:#eef3f9; padding:20px; margin:0; }
+body { font-family:'Poppins',sans-serif; background:#eef3f9; padding:15px; }
 
 .quotation-box {
-  max-width:950px; margin:auto; background:white; padding:30px;
+  max-width:950px; margin:auto; background:white; padding:25px;
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 .header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
 .logo-area img { height:60px; }
-.quote-title { font-size:36px; font-weight:700; color:#0b3d91; }
+.quote-title { font-size:32px; font-weight:700; color:#0b3d91; }
 
 .wave { height:8px; background:linear-gradient(90deg,#0b3d91,#2a7fff);
-  margin:15px 0 25px; border-radius:4px; }
+  margin:15px 0 20px; border-radius:4px; }
 
-.info-grid { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.info-grid { display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; }
+.info-grid div { flex:1; min-width:250px; }
 
 input, textarea {
-  border:none; border-bottom:1px solid #aaa; font-family:inherit;
-  width:100%; padding:4px; background:transparent;
+  border:none; border-bottom:1px solid #aaa; font-family:inherit; width:70%;
 }
 
 .section-title {
@@ -34,33 +34,28 @@ input, textarea {
   color:white; padding:6px 12px; font-weight:600; margin-top:25px;
 }
 
-table { width:100%; border-collapse:collapse; margin-top:10px; min-width:600px; }
+table { width:100%; border-collapse:collapse; margin-top:10px; font-size:14px; }
 th { background:linear-gradient(90deg,#0b3d91,#2a7fff); color:white; padding:8px; }
 td { border:1px solid #ddd; padding:8px; text-align:center; }
-
-.table-wrapper { overflow-x:auto; }
 
 .totals { text-align:right; margin-top:20px; }
 .total-amount { font-size:20px; font-weight:700; color:#0b3d91; }
 
-.two-columns { display:flex; justify-content:space-between; margin-top:25px; gap:20px; flex-wrap:wrap; }
+.two-columns { display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; margin-top:25px; }
 .two-columns div { flex:1; min-width:250px; }
 
 .footer { text-align:center; margin-top:35px; color:#0b3d91; font-weight:500; }
 
-.buttons { text-align:center; margin-top:20px; }
+.buttons { text-align:center; margin-top:15px; }
 button {
-  padding:10px 16px; margin:5px; border:none; border-radius:5px;
+  padding:8px 14px; margin:4px; border:none; border-radius:5px;
   background:#0b3d91; color:white; cursor:pointer;
 }
 button:hover { opacity:0.9; }
 
-/* 📱 MOBILE */
-@media (max-width:768px){
-  .quote-title{ font-size:26px; margin-top:10px; }
-  .quotation-box{ padding:18px; }
-  .info-grid{ flex-direction:column; }
-  .two-columns{ flex-direction:column; }
+@media(max-width:600px){
+  input, textarea { width:100%; }
+  .quote-title { font-size:24px; }
 }
 
 @media print { .buttons{display:none;} body{background:white;} }
@@ -73,7 +68,7 @@ button:hover { opacity:0.9; }
 
   <div class="header">
     <div class="logo-area">
-      <img src="aa.jpeg">
+      <img src="aa.jpg">
     </div>
     <div class="quote-title">QUOTATION</div>
   </div>
@@ -82,33 +77,20 @@ button:hover { opacity:0.9; }
 
   <div class="info-grid">
     <div>
-      <p>Quotation No:<input value="FT-0021"></p>
-      <p>Client Name:<input value="Anoop"></p>
-      <p>Business Name:<input value="Expertise Carry Markets"></p>
-      <p>Contact No:<input value="+966559981463"></p>
+      <p>Quotation No: <input value="FT-0021"></p>
+      <p>Client Name: <input></p>
+      <p>Business Name: <input></p>
+      <p>Contact No: <input></p>
     </div>
     <div>
-      <p>Date:<input type="date"></p>
+      <p>Date: <input type="date"></p>
     </div>
   </div>
 
   <div class="section-title">Project Overview</div>
-  <textarea rows="2">Brief description of the client’s requirements...</textarea>
-
-  <!-- ✅ TIMELINE SECTION -->
-  <div class="section-title">Timeline</div>
-  <div class="info-grid">
-    <div>
-      <p>Project Start Date:<input type="date"></p>
-    </div>
-    <div>
-      <p>Estimated Delivery:<input type="date"></p>
-    </div>
-  </div>
+  <textarea rows="2"></textarea>
 
   <div class="section-title">Services & Pricing</div>
-
-  <div class="table-wrapper">
   <table id="serviceTable">
     <tr>
       <th>No</th>
@@ -118,12 +100,11 @@ button:hover { opacity:0.9; }
     </tr>
     <tr>
       <td>1</td>
-      <td><input value="Meta Ads"></td>
-      <td><input value="Ad campaign management"></td>
-      <td><input type="number" class="amount" value="6000"></td>
+      <td><input></td>
+      <td><input></td>
+      <td><input type="number" class="amount" value="0"></td>
     </tr>
   </table>
-  </div>
 
   <div class="buttons">
     <button onclick="addRow()">Add Row</button>
@@ -132,9 +113,22 @@ button:hover { opacity:0.9; }
     <button onclick="removeColumn()">Remove Column</button>
   </div>
 
+  <div class="section-title">Timeline</div>
+  <p>Project Start: <input type="date"></p>
+  <p>Estimated Delivery: <input type="date"></p>
+
   <div class="totals">
     <p>Subtotal: ₹ <span id="subtotal">0</span></p>
-    <p>GST (18%): ₹ <span id="gst">0</span></p>
+
+    <p>
+      <label><input type="checkbox" id="gstCheck"> Apply GST</label>
+      <span id="gstInput" style="display:none; margin-left: 10px;">
+        <input type="number" id="gstPercentage" value="18" min="0" max="100" step="0.01" style="width:60px;">%
+      </span>
+    </p>
+
+    <p id="gstRow" style="display:none;">GST: ₹ <span id="gst">0</span></p>
+
     <p class="total-amount">Total: ₹ <span id="total">0</span></p>
   </div>
 
@@ -149,16 +143,15 @@ button:hover { opacity:0.9; }
     <div>
       <div class="section-title">Terms & Conditions</div>
       <ul>
-        <li>Any additional work outside the agreed scope will be charged separately</li>
-        <li>Revisions are limited as per the agreed plan</li>
-        <li>Advance payment is non-refundable</li>
+        <li>Additional work outside scope is chargeable</li>
+        <li>Revisions limited as per plan</li>
+        <li>Advance payment non-refundable</li>
       </ul>
     </div>
   </div>
 
   <div class="footer">
-    Thank you for choosing FyntricTech IT Solutions<br>
-    Phone / WhatsApp: +966559981463 | Email: fyntrictech@gmail.com
+    Thank you for choosing FyntricTech IT Solutions
   </div>
 </div>
 
@@ -173,13 +166,27 @@ button:hover { opacity:0.9; }
 function calculateTotal(){
   let subtotal=0;
   document.querySelectorAll(".amount").forEach(a=>subtotal+=Number(a.value));
-  let gst=subtotal*0.18;
+  let gst=0;
+
+  if(document.getElementById("gstCheck").checked){
+    const gstPercentage=Number(document.getElementById("gstPercentage").value);
+    gst=subtotal*(gstPercentage/100);
+    document.getElementById("gstRow").style.display="block";
+  } else {
+    document.getElementById("gstRow").style.display="none";
+  }
+
   document.getElementById("subtotal").innerText=subtotal.toFixed(2);
   document.getElementById("gst").innerText=gst.toFixed(2);
   document.getElementById("total").innerText=(subtotal+gst).toFixed(2);
 }
+
 document.addEventListener("input",calculateTotal);
-calculateTotal();
+document.getElementById("gstCheck").addEventListener("change",function(){
+  document.getElementById("gstInput").style.display=this.checked?"inline":"none";
+  calculateTotal();
+});
+document.getElementById("gstPercentage").addEventListener("input",calculateTotal);
 
 function addRow(){
   const table=document.getElementById("serviceTable");
@@ -193,18 +200,7 @@ function addRow(){
 
 function removeRow(){
   const table=document.getElementById("serviceTable");
-  if(table.rows.length>2){
-    table.deleteRow(-1);
-    updateRowNumbers();
-    calculateTotal();
-  }
-}
-
-function updateRowNumbers(){
-  const table=document.getElementById("serviceTable");
-  for(let i=1;i<table.rows.length;i++){
-    table.rows[i].cells[0].innerText=i;
-  }
+  if(table.rows.length>2){ table.deleteRow(-1); calculateTotal(); }
 }
 
 function addColumn(){
@@ -212,11 +208,8 @@ function addColumn(){
   const colIndex=table.rows[0].cells.length;
   for(let r of table.rows){
     const cell=r.insertCell(-1);
-    if(r.rowIndex===0){
-      cell.outerHTML=`<th>Extra ${colIndex-3}</th>`;
-    } else {
-      cell.innerHTML='<input>';
-    }
+    if(r.rowIndex===0){ cell.outerHTML=`<th>Extra</th>`; }
+    else { cell.innerHTML='<input>'; }
   }
 }
 
