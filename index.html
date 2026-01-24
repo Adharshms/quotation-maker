@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quotation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body { font-family:'Poppins',sans-serif; background:#eef3f9; padding:20px; margin:0; }
+
+.quotation-box {
+  max-width:950px; margin:auto; background:white; padding:30px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+.logo-area img { height:60px; }
+.quote-title { font-size:36px; font-weight:700; color:#0b3d91; }
+
+.wave { height:8px; background:linear-gradient(90deg,#0b3d91,#2a7fff);
+  margin:15px 0 25px; border-radius:4px; }
+
+.info-grid { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+
+input, textarea {
+  border:none; border-bottom:1px solid #aaa; font-family:inherit;
+  width:100%; padding:4px; background:transparent;
+}
+
+.section-title {
+  background:linear-gradient(90deg,#0b3d91,#2a7fff);
+  color:white; padding:6px 12px; font-weight:600; margin-top:25px;
+}
+
+table { width:100%; border-collapse:collapse; margin-top:10px; min-width:600px; }
+th { background:linear-gradient(90deg,#0b3d91,#2a7fff); color:white; padding:8px; }
+td { border:1px solid #ddd; padding:8px; text-align:center; }
+
+.table-wrapper { overflow-x:auto; }
+
+.totals { text-align:right; margin-top:20px; }
+.total-amount { font-size:20px; font-weight:700; color:#0b3d91; }
+
+.two-columns { display:flex; justify-content:space-between; margin-top:25px; gap:20px; flex-wrap:wrap; }
+.two-columns div { flex:1; min-width:250px; }
+
+.footer { text-align:center; margin-top:35px; color:#0b3d91; font-weight:500; }
+
+.buttons { text-align:center; margin-top:20px; }
+button {
+  padding:10px 16px; margin:5px; border:none; border-radius:5px;
+  background:#0b3d91; color:white; cursor:pointer;
+}
+button:hover { opacity:0.9; }
+
+/* 📱 MOBILE */
+@media (max-width:768px){
+  .quote-title{ font-size:26px; margin-top:10px; }
+  .quotation-box{ padding:18px; }
+  .info-grid{ flex-direction:column; }
+  .two-columns{ flex-direction:column; }
+}
+
+@media print { .buttons{display:none;} body{background:white;} }
+</style>
+</head>
+
+<body>
+
+<div class="quotation-box" id="quotation">
+
+  <div class="header">
+    <div class="logo-area">
+      <img src="aa.jpeg">
+    </div>
+    <div class="quote-title">QUOTATION</div>
+  </div>
+
+  <div class="wave"></div>
+
+  <div class="info-grid">
+    <div>
+      <p>Quotation No:<input value="FT-0021"></p>
+      <p>Client Name:<input value="Anoop"></p>
+      <p>Business Name:<input value="Expertise Carry Markets"></p>
+      <p>Contact No:<input value="+966559981463"></p>
+    </div>
+    <div>
+      <p>Date:<input type="date"></p>
+    </div>
+  </div>
+
+  <div class="section-title">Project Overview</div>
+  <textarea rows="2">Brief description of the client’s requirements...</textarea>
+
+  <!-- ✅ TIMELINE SECTION -->
+  <div class="section-title">Timeline</div>
+  <div class="info-grid">
+    <div>
+      <p>Project Start Date:<input type="date"></p>
+    </div>
+    <div>
+      <p>Estimated Delivery:<input type="date"></p>
+    </div>
+  </div>
+
+  <div class="section-title">Services & Pricing</div>
+
+  <div class="table-wrapper">
+  <table id="serviceTable">
+    <tr>
+      <th>No</th>
+      <th>Service</th>
+      <th>Description</th>
+      <th>Amount (₹)</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td><input value="Meta Ads"></td>
+      <td><input value="Ad campaign management"></td>
+      <td><input type="number" class="amount" value="6000"></td>
+    </tr>
+  </table>
+  </div>
+
+  <div class="buttons">
+    <button onclick="addRow()">Add Row</button>
+    <button onclick="removeRow()">Remove Row</button>
+    <button onclick="addColumn()">Add Column</button>
+    <button onclick="removeColumn()">Remove Column</button>
+  </div>
+
+  <div class="totals">
+    <p>Subtotal: ₹ <span id="subtotal">0</span></p>
+    <p>GST (18%): ₹ <span id="gst">0</span></p>
+    <p class="total-amount">Total: ₹ <span id="total">0</span></p>
+  </div>
+
+  <div class="two-columns">
+    <div>
+      <div class="section-title">Payment Terms</div>
+      <ul>
+        <li>50% advance before start</li>
+        <li>50% after completion</li>
+      </ul>
+    </div>
+    <div>
+      <div class="section-title">Terms & Conditions</div>
+      <ul>
+        <li>Any additional work outside the agreed scope will be charged separately</li>
+        <li>Revisions are limited as per the agreed plan</li>
+        <li>Advance payment is non-refundable</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    Thank you for choosing FyntricTech IT Solutions<br>
+    Phone / WhatsApp: +966559981463 | Email: fyntrictech@gmail.com
+  </div>
+</div>
+
+<div class="buttons">
+  <button onclick="downloadPDF()">Download PDF</button>
+  <button onclick="window.print()">Print</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+function calculateTotal(){
+  let subtotal=0;
+  document.querySelectorAll(".amount").forEach(a=>subtotal+=Number(a.value));
+  let gst=subtotal*0.18;
+  document.getElementById("subtotal").innerText=subtotal.toFixed(2);
+  document.getElementById("gst").innerText=gst.toFixed(2);
+  document.getElementById("total").innerText=(subtotal+gst).toFixed(2);
+}
+document.addEventListener("input",calculateTotal);
+calculateTotal();
+
+function addRow(){
+  const table=document.getElementById("serviceTable");
+  const rowCount=table.rows.length;
+  const row=table.insertRow();
+  row.innerHTML=`<td>${rowCount}</td>
+  <td><input></td>
+  <td><input></td>
+  <td><input type="number" class="amount" value="0"></td>`;
+}
+
+function removeRow(){
+  const table=document.getElementById("serviceTable");
+  if(table.rows.length>2){
+    table.deleteRow(-1);
+    updateRowNumbers();
+    calculateTotal();
+  }
+}
+
+function updateRowNumbers(){
+  const table=document.getElementById("serviceTable");
+  for(let i=1;i<table.rows.length;i++){
+    table.rows[i].cells[0].innerText=i;
+  }
+}
+
+function addColumn(){
+  const table=document.getElementById("serviceTable");
+  const colIndex=table.rows[0].cells.length;
+  for(let r of table.rows){
+    const cell=r.insertCell(-1);
+    if(r.rowIndex===0){
+      cell.outerHTML=`<th>Extra ${colIndex-3}</th>`;
+    } else {
+      cell.innerHTML='<input>';
+    }
+  }
+}
+
+function removeColumn(){
+  const table=document.getElementById("serviceTable");
+  if(table.rows[0].cells.length>4){
+    for(let r of table.rows){ r.deleteCell(-1); }
+  }
+}
+
+function downloadPDF(){
+  html2pdf().from(document.getElementById("quotation")).save("Quotation.pdf");
+}
+</script>
+
+</body>
+</html>
