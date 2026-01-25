@@ -158,9 +158,10 @@ button {
   table {
     page-break-inside:auto;
   }
-  tr {
-    page-break-inside:avoid;
+  tr, .service-row {
+    page-break-inside:avoid !important;
     page-break-after:auto;
+    break-inside: avoid !important;
   }
   td, th {
     page-break-inside:avoid;
@@ -342,6 +343,7 @@ function updateNumbers(){
 function addRow(){
   const table=document.getElementById("serviceTable");
   const row=table.insertRow();
+  row.className = 'service-row';
   row.innerHTML=`<td></td>
   <td><textarea oninput=\"autoGrow(this)\" style=\"min-height:40px;overflow:hidden;width:100%\"></textarea></td>
   <td><textarea oninput=\"autoGrow(this)\" style=\"min-height:40px;overflow:hidden;width:100%\"></textarea></td>
