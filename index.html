@@ -166,6 +166,17 @@ button {
     white-space: pre-wrap !important;
     word-break: break-word !important;
   }
+  @page {
+    margin: 0;
+  }
+  html, body {
+    overflow: visible !important;
+  }
+  /* Hide browser UI overlays, address bar, and any header/footer if possible */
+  ::-webkit-input-placeholder { color: #000 !important; }
+  input[type="text"], input[type="date"] { color: #000 !important; }
+  /* Hide any element with class 'github-repo', 'repo-link', or similar */
+  .github-repo, .repo-link, .gh-header, .gh-footer, .gh-banner { display: none !important; }
 }
 </style>
 </head>
@@ -193,9 +204,13 @@ button {
   <div class="wave"></div>
 
   <div class="info-grid">
-    <div>
-      <p>Quotation No: <input></p>
-      <p>Date: <input type="date"></p>
+    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.5em;">
+      <p style="margin-bottom: 0.2em;">Quotation No: <input></p>
+      <div style="display: flex; align-items: center; gap: 0.5em; margin-left: 2px;">
+        <label for="dateDisplay" style="font-weight:500; margin-bottom:0;">Date:</label>
+        <input type="text" id="dateDisplay" style="width:120px;cursor:pointer;background:#f9faff;" placeholder="DD/MM/YYYY"> 
+        <input type="date" id="dateInput" style="width:0;height:0;border:none;padding:0;margin:0;opacity:0;position:absolute;pointer-events:none;" tabindex="-1">
+      </div>
     </div>
   </div>
 
@@ -353,6 +368,33 @@ function removeClientField(btn) {
   if(document.querySelectorAll('#clientFields .client-field-row').length > 1) {
     row.remove();
   }
+}
+
+// Date formatting for display (DD/MM/YYYY in input, sync both ways)
+const dateInput = document.getElementById('dateInput');
+const dateDisplay = document.getElementById('dateDisplay');
+if(dateInput && dateDisplay) {
+  // Show calendar on click of dateDisplay
+  dateDisplay.onclick = function() { dateInput.click(); };
+  // When picking from calendar, update text input
+  dateInput.addEventListener('input', function() {
+    if(this.value) {
+      const [yyyy, mm, dd] = this.value.split('-');
+      dateDisplay.value = dd + '/' + mm + '/' + yyyy;
+    } else {
+      dateDisplay.value = '';
+    }
+  });
+  // When typing in text input, update hidden date input
+  dateDisplay.addEventListener('input', function() {
+    const match = this.value.match(/^([0-3][0-9])\/(0[1-9]|1[0-2])\/(\d{4})$/);
+    if(match) {
+      const [_, dd, mm, yyyy] = match;
+      dateInput.value = `${yyyy}-${mm}-${dd}`;
+    } else {
+      dateInput.value = '';
+    }
+  });
 }
 </script>
 </body>
