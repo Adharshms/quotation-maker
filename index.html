@@ -145,12 +145,18 @@ button {
 .remove-client-field:hover {
   background:#c0392b;
 }
-
+.add-client-field-btn {
+  /* for targeting the add field button */
+}
 @media print {
   body { background:white; }
   .buttons { display:none !important; }
   input, textarea { border:none !important; }
   table, th, td { border:1px solid #000 !important; }
+  .remove-client-field,
+  .add-client-field-btn {
+    display: none !important;
+  }
 }
 </style>
 </head>
@@ -220,7 +226,7 @@ button {
       </div>
     </div>
     <div style="margin-top:10px; text-align:right;">
-      <button type="button" onclick="addClientField()">Add Field</button>
+      <button type="button" class="add-client-field-btn" onclick="addClientField()">Add Field</button>
     </div>
   </div>
 
