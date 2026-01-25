@@ -50,6 +50,14 @@ body { font-family:'Poppins',sans-serif; background:#eef3f9; padding:15px; }
 .info-grid { display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; }
 .info-grid div { flex:1; min-width:250px; }
 
+.client-details {
+  background:#f9faff;
+  padding:15px;
+  border-left:4px solid #0b3d91;
+  margin:10px 0;
+  border-radius:4px;
+}
+
 input, textarea {
   border:none;
   border-bottom:1px solid #aaa;
@@ -111,6 +119,33 @@ button {
   background:#0b3d91; color:white; cursor:pointer;
 }
 
+.client-field-row {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:8px;
+}
+.client-label {
+  width:160px;
+  min-width:120px;
+  font-weight:500;
+}
+.client-value {
+  flex:1;
+}
+.remove-client-field {
+  background:#e74c3c;
+  color:white;
+  border:none;
+  border-radius:3px;
+  padding:2px 8px;
+  font-size:16px;
+  cursor:pointer;
+}
+.remove-client-field:hover {
+  background:#c0392b;
+}
+
 @media print {
   body { background:white; }
   .buttons { display:none !important; }
@@ -145,12 +180,47 @@ button {
   <div class="info-grid">
     <div>
       <p>Quotation No: <input></p>
-      <p>Client Name: <input></p>
-      <p>Business Name: <input></p>
-      <p>Contact No: <input></p>
-    </div>
-    <div>
       <p>Date: <input type="date"></p>
+    </div>
+  </div>
+
+  <!-- DYNAMIC CLIENT DETAILS SECTION -->
+  <div class="section-title">Client Details</div>
+  <div class="client-details">
+    <div id="clientFields">
+      <div class="client-field-row">
+        <input class="client-label" placeholder="Label (e.g. Client Name)" value="Client Name">:
+        <input class="client-value" placeholder="Value (e.g. John Doe)">
+        <button type="button" class="remove-client-field" onclick="removeClientField(this)">-</button>
+      </div>
+      <div class="client-field-row">
+        <input class="client-label" placeholder="Label (e.g. Business Name)" value="Business Name">:
+        <input class="client-value" placeholder="Value (e.g. Acme Corp)">
+        <button type="button" class="remove-client-field" onclick="removeClientField(this)">-</button>
+      </div>
+      <div class="client-field-row">
+        <input class="client-label" placeholder="Label (e.g. Address)" value="Address">:
+        <textarea class="client-value" placeholder="Value (e.g. Street, City, State)"></textarea>
+        <button type="button" class="remove-client-field" onclick="removeClientField(this)">-</button>
+      </div>
+      <div class="client-field-row">
+        <input class="client-label" placeholder="Label (e.g. Contact No)" value="Contact No">:
+        <input class="client-value" placeholder="Value (e.g. 9876543210)">
+        <button type="button" class="remove-client-field" onclick="removeClientField(this)">-</button>
+      </div>
+      <div class="client-field-row">
+        <input class="client-label" placeholder="Label (e.g. Email)" value="Email">:
+        <input class="client-value" placeholder="Value (e.g. mail@example.com)">
+        <button type="button" class="remove-client-field" onclick="removeClientField(this)">-</button>
+      </div>
+      <div class="client-field-row">
+        <input class="client-label" placeholder="Label (e.g. GST No)" value="GST No">:
+        <input class="client-value" placeholder="Value (e.g. 22AAAAA0000A1Z5)">
+        <button type="button" class="remove-client-field" onclick="removeClientField(this)">-</button>
+      </div>
+    </div>
+    <div style="margin-top:10px; text-align:right;">
+      <button type="button" onclick="addClientField()">Add Field</button>
     </div>
   </div>
 
@@ -180,14 +250,11 @@ button {
 
   <div class="totals-box">
     <div class="totals-row">
-      <span>Subtotal</span>
+      <span>Total</span>
       <span>₹ <span id="subtotal">0.00</span></span>
     </div>
 
-    <div class="totals-row grand">
-      <span>Grand Total</span>
-      <span>₹ <span id="grandTotal">0.00</span></span>
-    </div>
+     
   </div>
 
   <div class="two-columns">
@@ -251,6 +318,24 @@ function calculateTotal(){
   inputs.forEach(i=>subtotal+=Number(i.value));
   document.getElementById("subtotal").innerText=subtotal.toFixed(2);
   document.getElementById("grandTotal").innerText=subtotal.toFixed(2);
+}
+
+function addClientField() {
+  const row = document.createElement('div');
+  row.className = 'client-field-row';
+  row.innerHTML = `
+    <input class="client-label" placeholder="Label (e.g. Custom Field)">:
+    <input class="client-value" placeholder="Value">
+    <button type="button" class="remove-client-field" onclick="removeClientField(this)">-</button>
+  `;
+  document.getElementById('clientFields').appendChild(row);
+}
+
+function removeClientField(btn) {
+  const row = btn.parentElement;
+  if(document.querySelectorAll('#clientFields .client-field-row').length > 1) {
+    row.remove();
+  }
 }
 </script>
 
