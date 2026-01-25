@@ -150,33 +150,39 @@ button {
 }
 @media print {
   body { background:white; }
-  .buttons { display:none !important; }
-  input, textarea { border:none !important; }
-  table, th, td { border:1px solid #000 !important; }
+  .buttons,
   .remove-client-field,
   .add-client-field-btn {
-    display: none !important;
+    display:none !important;
+  }
+  table {
+    page-break-inside:auto;
+  }
+  tr {
+    page-break-inside:avoid;
+    page-break-after:auto;
+  }
+  td, th {
+    page-break-inside:avoid;
+    vertical-align:top !important;
   }
   textarea {
-    height: auto !important;
-    overflow: visible !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    box-sizing: border-box !important;
-    white-space: pre-wrap !important;
-    word-break: break-word !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow:visible !important;
+    white-space:pre-wrap !important;
+    word-wrap:break-word !important;
+    border:none !important;
+    padding:0 !important;
+    line-height:1.4 !important;
   }
-  @page {
-    margin: 0;
+  input {
+    border:none !important;
   }
-  html, body {
-    overflow: visible !important;
+  table, th, td {
+    border:1px solid #000 !important;
   }
-  /* Hide browser UI overlays, address bar, and any header/footer if possible */
-  ::-webkit-input-placeholder { color: #000 !important; }
-  input[type="text"], input[type="date"] { color: #000 !important; }
-  /* Hide any element with class 'github-repo', 'repo-link', or similar */
-  .github-repo, .repo-link, .gh-header, .gh-footer, .gh-banner { display: none !important; }
 }
 </style>
 </head>
@@ -316,9 +322,17 @@ button {
 
 <script>
 function autoGrow(el){
-  el.style.height="auto";
-  el.style.height=(el.scrollHeight)+"px";
+  el.style.height = 'auto';
+  el.style.height = (el.scrollHeight) + 'px';
 }
+
+// Apply autoGrow to all textareas on page load
+window.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('textarea').forEach(function(el) {
+    autoGrow(el);
+    el.addEventListener('input', function() { autoGrow(el); });
+  });
+});
 
 function updateNumbers(){
   const rows=document.querySelectorAll("#serviceTable tr");
@@ -329,10 +343,15 @@ function addRow(){
   const table=document.getElementById("serviceTable");
   const row=table.insertRow();
   row.innerHTML=`<td></td>
-  <td><textarea oninput=\"autoGrow(this)\" style=\"min-height:40px;overflow:hidden;\"></textarea></td>
-  <td><textarea oninput=\"autoGrow(this)\" style=\"min-height:40px;overflow:hidden;\"></textarea></td>
+  <td><textarea oninput=\"autoGrow(this)\" style=\"min-height:40px;overflow:hidden;width:100%\"></textarea></td>
+  <td><textarea oninput=\"autoGrow(this)\" style=\"min-height:40px;overflow:hidden;width:100%\"></textarea></td>
   <td><input type=\"number\" value=\"0\" oninput=\"calculateTotal()\"></td>`;
   updateNumbers();
+  // Ensure new textareas auto-expand
+  row.querySelectorAll('textarea').forEach(function(el) {
+    autoGrow(el);
+    el.addEventListener('input', function() { autoGrow(el); });
+  });
 }
 
 function removeRow(){
@@ -396,6 +415,48 @@ if(dateInput && dateDisplay) {
     }
   });
 }
+
+// Print fix: replace all table textareas with divs before print
+function preparePrintTextareas() {
+  document.querySelectorAll('#serviceTable textarea').forEach(function(textarea) {
+    // Only if not already replaced
+    if (!textarea.classList.contains('print-replaced')) {
+      const div = document.createElement('div');
+      div.textContent = textarea.value;
+      div.style.whiteSpace = 'pre-wrap';
+      div.style.wordBreak = 'break-word';
+      div.style.minHeight = '40px';
+      div.style.fontFamily = 'inherit';
+      div.style.fontSize = '14px';
+      div.style.padding = '3px 2px';
+      div.style.background = 'none';
+      div.style.border = 'none';
+      div.className = 'print-replaced';
+      textarea.style.display = 'none';
+      textarea.parentNode.insertBefore(div, textarea);
+    }
+  });
+}
+function restoreTextareasAfterPrint() {
+  document.querySelectorAll('.print-replaced').forEach(function(div) {
+    const textarea = div.previousElementSibling;
+    if (textarea && textarea.tagName === 'TEXTAREA') {
+      textarea.style.display = '';
+    }
+    div.remove();
+  });
+}
+if (window.matchMedia) {
+  window.matchMedia('print').addEventListener('change', function(e) {
+    if (e.matches) {
+      preparePrintTextareas();
+    } else {
+      restoreTextareasAfterPrint();
+    }
+  });
+}
+window.onbeforeprint = preparePrintTextareas;
+window.onafterprint = restoreTextareasAfterPrint;
 </script>
 </body>
 </html>
