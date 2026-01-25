@@ -157,6 +157,15 @@ button {
   .add-client-field-btn {
     display: none !important;
   }
+  textarea {
+    height: auto !important;
+    overflow: visible !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+  }
 }
 </style>
 </head>
@@ -243,8 +252,8 @@ button {
     </tr>
     <tr>
       <td>1</td>
-      <td><textarea oninput="autoGrow(this)"></textarea></td>
-      <td><textarea oninput="autoGrow(this)"></textarea></td>
+      <td><textarea oninput="autoGrow(this)" style="min-height:40px;overflow:hidden;"></textarea></td>
+      <td><textarea oninput="autoGrow(this)" style="min-height:40px;overflow:hidden;"></textarea></td>
       <td><input type="number" value="0" oninput="calculateTotal()"></td>
     </tr>
   </table>
@@ -305,9 +314,9 @@ function addRow(){
   const table=document.getElementById("serviceTable");
   const row=table.insertRow();
   row.innerHTML=`<td></td>
-  <td><textarea oninput="autoGrow(this)"></textarea></td>
-  <td><textarea oninput="autoGrow(this)"></textarea></td>
-  <td><input type="number" value="0" oninput="calculateTotal()"></td>`;
+  <td><textarea oninput=\"autoGrow(this)\" style=\"min-height:40px;overflow:hidden;\"></textarea></td>
+  <td><textarea oninput=\"autoGrow(this)\" style=\"min-height:40px;overflow:hidden;\"></textarea></td>
+  <td><input type=\"number\" value=\"0\" oninput=\"calculateTotal()\"></td>`;
   updateNumbers();
 }
 
