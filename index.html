@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quotation</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 body {
@@ -164,6 +165,14 @@ button {
   /* for targeting the add field button */
 }
 @media print {
+  .page, .quotation-content, .quotation-box, .client-details, .totals-box, .two-columns, .footer, tr, td, th {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  .page {
+    page-break-after: always;
+    break-after: page;
+  }
   body { background:white; }
   .buttons,
   .remove-client-field,
@@ -172,15 +181,6 @@ button {
   }
   table {
     page-break-inside:auto;
-  }
-  tr, .service-row {
-    page-break-inside:avoid !important;
-    page-break-after:auto;
-    break-inside: avoid !important;
-  }
-  td, th {
-    page-break-inside:avoid;
-    vertical-align:top !important;
   }
   textarea {
     height:auto !important;
@@ -199,21 +199,12 @@ button {
   table, th, td {
     border:1px solid #000 !important;
   }
-  /* Remove any forced page breaks between sections */
-  /* .section-title, .client-details, .totals-box, .two-columns, .footer {
-    page-break-before: always !important;
-    break-before: page !important;
-  }
-  .section-title:first-child, .client-details:first-child {
-    page-break-before: auto !important;
-    break-before: auto !important;
-  } */
 }
 </style>
 </head>
 
 <body>
-
+<div id="pdf-export">
 <div class="quotation-box">
 
   <div class="header">
@@ -345,6 +336,7 @@ button {
   <div class="footer">Thank you for choosing FyntricTech IT Solutions</div>
 </div>
 
+</div>
 <div class="buttons">
   <button onclick="window.print()">Print</button>
 </div>
@@ -452,10 +444,29 @@ if(dateInput && dateDisplay) {
   });
 }
 
-// Print fix: replace all table textareas with divs before print, but always restore textareas for editing after print
+// Remove any lingering .print-replaced divs on input, click, and after print to prevent duplicate content
+function cleanPrintDivs() {
+  document.querySelectorAll('.print-replaced').forEach(function(div) {
+    const textarea = div.previousElementSibling;
+    if (textarea && textarea.tagName === 'TEXTAREA') {
+      textarea.style.display = '';
+    }
+    div.remove();
+  });
+}
+document.addEventListener('input', cleanPrintDivs);
+document.addEventListener('click', cleanPrintDivs);
+window.onafterprint = function() {
+  cleanPrintDivs();
+};
+
+// Ensure preparePrintTextareas never creates more than one print-replaced div per textarea
 function preparePrintTextareas() {
   document.querySelectorAll('#serviceTable textarea, .section-title + textarea').forEach(function(textarea) {
-    // Only if not already replaced
+    // Remove any existing print-replaced div before creating a new one
+    if (textarea.nextElementSibling && textarea.nextElementSibling.classList && textarea.nextElementSibling.classList.contains('print-replaced')) {
+      textarea.nextElementSibling.remove();
+    }
     if (!textarea.classList.contains('print-replaced')) {
       const div = document.createElement('div');
       div.textContent = textarea.value;
@@ -470,10 +481,11 @@ function preparePrintTextareas() {
       div.className = 'print-replaced';
       div.style.display = 'block';
       textarea.style.display = 'none';
-      textarea.parentNode.insertBefore(div, textarea);
+      textarea.parentNode.insertBefore(div, textarea.nextSibling);
     }
   });
 }
+
 function restoreTextareasAfterPrint() {
   document.querySelectorAll('.print-replaced').forEach(function(div) {
     const textarea = div.previousElementSibling;
@@ -494,6 +506,36 @@ if (window.matchMedia) {
 }
 window.onbeforeprint = preparePrintTextareas;
 window.onafterprint = restoreTextareasAfterPrint;
+
+// Improved checkOverflow: move whole sections to new pages if they overflow
+function checkOverflow() {
+  const pages = document.querySelectorAll('.page');
+  const lastPage = pages[pages.length - 1];
+  const content = lastPage.querySelector('.quotation-content');
+  if (content.scrollHeight > lastPage.clientHeight - 40) {
+    // Find the last major section in .quotation-content
+    const sections = Array.from(content.children);
+    let moveIndex = sections.length - 1;
+    let totalHeight = 0;
+    for (let i = 0; i < sections.length; i++) {
+      totalHeight += sections[i].offsetHeight;
+      if (totalHeight > lastPage.clientHeight - 40) {
+        moveIndex = i;
+        break;
+      }
+    }
+    // Move overflowing sections to a new page
+    const newPage = document.createElement('div');
+    newPage.className = 'page';
+    const newContent = document.createElement('div');
+    newContent.className = 'quotation-content';
+    for (let i = moveIndex; i < sections.length; i++) {
+      newContent.appendChild(sections[i]);
+    }
+    newPage.appendChild(newContent);
+    document.body.appendChild(newPage);
+  }
+}
 </script>
 </body>
 </html>
