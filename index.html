@@ -290,7 +290,7 @@ button {
       </div>
 
   <div class="section-title">Project Overview</div>
-  <textarea oninput="autoGrow(this)"></textarea>
+  <textarea oninput="autoGrow(this)" style="min-height:28px;overflow:hidden;width:100%"></textarea>
 
   <div class="section-title">Services & Pricing</div>
   <table id="serviceTable">
@@ -361,6 +361,12 @@ window.addEventListener('DOMContentLoaded', function() {
     autoGrow(el);
     el.addEventListener('input', function() { autoGrow(el); });
   });
+  // Apply autoGrow to Project Overview textarea on page load
+  var overview = document.querySelector('.section-title + textarea');
+  if (overview) {
+    autoGrow(overview);
+    overview.addEventListener('input', function() { autoGrow(overview); });
+  }
 });
 
 function updateNumbers(){
@@ -448,7 +454,7 @@ if(dateInput && dateDisplay) {
 
 // Print fix: replace all table textareas with divs before print, but always restore textareas for editing after print
 function preparePrintTextareas() {
-  document.querySelectorAll('#serviceTable textarea').forEach(function(textarea) {
+  document.querySelectorAll('#serviceTable textarea, .section-title + textarea').forEach(function(textarea) {
     // Only if not already replaced
     if (!textarea.classList.contains('print-replaced')) {
       const div = document.createElement('div');
